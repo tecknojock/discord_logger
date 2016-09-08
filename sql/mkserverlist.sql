@@ -1,5 +1,4 @@
 CREATE TABLE IF NOT EXISTS servers (
-	INTEGER PRIMARY KEY id,
-	TEXT name,
-	TEXT server_id
+	TEXT PRIMARY KEY server_id,
+	TEXT name
 );
