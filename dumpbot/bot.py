@@ -10,6 +10,9 @@ class DumpBot(discord.Client):
     def run():
         super().run(self.config.token, bot=self.config.bot)
 
+    async def on_message(self, message):
+        pass
+
 if __name__ == '__main__':
     dumpbot = DumpBot()
     dumpbot.run()
