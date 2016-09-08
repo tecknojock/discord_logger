@@ -1,7 +1,8 @@
 import discord
 
-def _main():
+class DumpBot(discord.Client):
     pass
 
 if __name__ == '__main__':
-    _main()
+    dumpbot = DumpBot()
+    dumpbot.run()
