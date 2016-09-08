@@ -8,10 +8,7 @@ class DumpBot(discord.Client):
         self.config = Config()
         self.conn = sqlite3.connect(self.config.db)
         self.cur = self.conn.cursor()
-        self.cur.execute('''CREATE TABLE IF NOT EXISTS servers (
-                                TEXT PRIMARY KEY server_id,
-                                TEXT name
-                            );''')
+        self.cur.execute('CREATE TABLE IF NOT EXISTS servers (TEXT PRIMARY KEY server_id, TEXT name);')
 
     def run(self):
         print('Logging in...')
