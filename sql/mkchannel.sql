@@ -3,6 +3,6 @@ CREATE TABLE IF NOT EXISTS channel_id (
 	TEXT message_id,
 	TEXT author_id,
 	TEXT contents,
-    TEXT attachment_hash,
-	TEXT attachment_ext
+	TEXT attachment_name,
+    TEXT attachment_hash
 );
