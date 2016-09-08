@@ -1,0 +1,5 @@
+{
+  "bot": true,
+  "db": "Path to SQLite3 database",
+  "token": "API token"
+}
