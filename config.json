@@ -1,5 +1,5 @@
 {
   "bot": true,
-  "db": "Path to SQLite3 database",
+  "db": "discord.db",
   "token": "API token"
 }
