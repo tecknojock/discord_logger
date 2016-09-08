@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS server_id (
-	TEXT PRIMARY KEY channel_id,
-	TEXT name,
-	TEXT description
+	channel_id TEXT PRIMARY KEY,
+	name TEXT,
+	description TEXT
 );
