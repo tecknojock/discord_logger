@@ -1,5 +1,6 @@
 import discord
 import sqlite3
+from config import Config
 
 class DumpBot(discord.Client):
     def __init__(self):
@@ -7,7 +8,7 @@ class DumpBot(discord.Client):
         self.config = Config()
         self.conn = sqlite3.connect(self.config.db)
 
-    def run():
+    def run(self):
         super().run(self.config.token, bot=self.config.bot)
 
     async def on_message(self, message):

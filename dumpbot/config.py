@@ -2,7 +2,7 @@ import json
 import sys
 
 class Config():
-    def __init__():
+    def __init__(self):
         _json = None
         try:
             with open('config.json') as f:
@@ -10,6 +10,6 @@ class Config():
         except FileNotFoundError as e:
             print('config.json not found. Aborting.')
             sys.exit(1)
-        self.bot = _json['bot']
-        self.db = _json['db']
-        self.token = _json['token']
+        self.bot = bool(_json['bot'])
+        self.db = str(_json['db'])
+        self.token = str(_json['token'])

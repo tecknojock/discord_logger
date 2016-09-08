@@ -87,3 +87,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+## DumpBot specific files
+config.json
+*.db
