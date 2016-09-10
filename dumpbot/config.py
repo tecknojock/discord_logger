@@ -35,3 +35,6 @@ class Config():
 
         with open(os.path.join(_sql_path, 'inschannel.sql')) as f:
             self.sql['inschannel'] = f.read()
+
+        with open(os.path.join(_sql_path, 'insserver.sql')) as f:
+            self.sql['insserver'] = f.read()

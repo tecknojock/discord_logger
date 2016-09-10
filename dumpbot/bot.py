@@ -20,6 +20,8 @@ class DumpBot(discord.Client):
 
     async def on_ready(self):
         for server in self.servers:
+            self.conn.execute(self.config.sql['insserver'], \
+                              (server.id, server.name))
             await self.dump_server(server)
         sys.exit(0)
 
