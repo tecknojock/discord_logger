@@ -1,1 +1,1 @@
-INSERT INTO ? VALUES (?, ?, ?);
+REPLACE INTO {} VALUES (?, ?, ?);
