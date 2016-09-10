@@ -25,18 +25,15 @@ class DumpBot(discord.Client):
 
     async def dump_server(self, server):
         self.logger.info('Dumping server id=%s', server.id)
-        self.conn.execute(self.config.sql['mkserver'].format(scrub_sql(server.id)))
+        self.conn.execute(self.config.sql['mkserver'].format(server.id))
         for channel in server.channels:
-            self.conn.execute(self.config.sql['inschannel'].format(scrub_sql(server.id)), \
+            self.conn.execute(self.config.sql['inschannel'].format(server.id), \
                              (channel.id, channel.name, channel.topic))
             await self.dump_channel(channel)
 
     async def dump_channel(self, channel):
         self.logger.info('Dumping channel id=%s', channel.id)
         self.logger.warn('Channel dumping not implemented yet')
-
-def scrub_sql(query):
-    pass
 
 if __name__ == '__main__':
     dumpbot = DumpBot()

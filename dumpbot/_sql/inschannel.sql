@@ -1,1 +1,1 @@
-REPLACE INTO {} VALUES (?, ?, ?);
+REPLACE INTO [{}] VALUES (?, ?, ?);
