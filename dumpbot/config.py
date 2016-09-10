@@ -15,13 +15,18 @@ class Config():
         self.db = str(_json['db'])
         self.token = str(_json['token'])
 
+        self.sql = {}
+
         _sql_path = os.path.join(os.path.dirname(__file__), os.path.pardir, '_sql')
-        # TODO: Add SQL files here!
+
         with open(os.path.join(_sql_path, 'mkserverlist.sql')) as f:
-            pass
+            self.sql['mkserverlist'] = f.read()
 
         with open(os.path.join(_sql_path, 'mkserver.sql')) as f:
-            pass
+            self.sql['mkserver'] = f.read()
 
         with open(os.path.join(_sql_path, 'mkchannel.sql')) as f:
-            pass
+            self.sql['mkchannel'] = f.read()
+
+        with open(os.path.join(_sql_path, 'inschannel.sql')) as f:
+            self.sql['inschannel'] = f.read()
