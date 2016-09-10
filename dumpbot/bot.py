@@ -1,6 +1,9 @@
+import logging
 import discord
 import sqlite3
 from config import Config
+
+logging.basicConfig(level=logging.INFO)
 
 class DumpBot(discord.Client):
     def __init__(self):
@@ -11,11 +14,9 @@ class DumpBot(discord.Client):
         self.cur.execute(self.config.sql['mkserverlist'])
 
     def run(self):
-        print('Logging in...')
         super().run(self.config.token, bot=self.config.bot)
 
     async def on_read(self, message):
-        print('Getting server list...')
         for server in discord.Client.servers:
             await dump_server(server)
 
