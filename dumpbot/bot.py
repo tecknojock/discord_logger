@@ -12,22 +12,22 @@ class DumpBot(discord.Client):
         self.config = Config()
         self.conn = sqlite3.connect(self.config.db)
         self.cur = self.conn.cursor()
-        self.cur.execute(self.config.sql['mkserverlist'])
+        #self.cur.execute(self.config.sql['mkserverlist'])
 
     def run(self):
         super().run(self.config.token, bot=self.config.bot)
 
-    async def on_ready(self, message):
-        for server in discord.Client.servers:
-            await dump_server(server)
+    async def on_ready(self):
+        for server in self.servers:
+            await self.dump_server(server)
 
     async def dump_server(self, server):
         self.logger.info('Dumping server id=%s', server.id)
-        self.cur.execute(self.config.sql['mkserver'], server.id)
+        #self.cur.execute(self.config.sql['mkserver'], server.id)
         for channel in server.channels:
-            self.cur.execute(self.config.sql['inschannel'], \
-                             server.id, channel.id, channel.name, channel.topic)
-            await dump_channel(channel)
+            #self.cur.execute(self.config.sql['inschannel'], \
+                             #server.id, channel.id, channel.name, channel.topic)
+            await self.dump_channel(channel)
 
     async def dump_channel(self, channel):
         self.logger.info('Dumping channel id=%s', channel.id)
