@@ -17,7 +17,7 @@ class Config():
 
         self.sql = {}
 
-        _sql_path = os.path.join(os.path.dirname(__file__), os.path.pardir, '_sql')
+        _sql_path = os.path.join(os.path.dirname(__file__), '_sql')
 
         with open(os.path.join(_sql_path, 'mkserverlist.sql')) as f:
             self.sql['mkserverlist'] = f.read()
