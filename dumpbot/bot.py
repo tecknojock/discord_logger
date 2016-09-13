@@ -1,9 +1,10 @@
-import logging
 import discord
+import logging
 import sqlite3
 import sys
 
 from config import Config
+from hashlib import sha512
 
 logging.basicConfig(level=logging.INFO)
 
@@ -35,7 +36,15 @@ class DumpBot(discord.Client):
 
     async def dump_channel(self, channel):
         self.logger.info('Dumping channel id=%s', channel.id)
-        self.logger.warn('Channel dumping not implemented yet')
+        self.conn.execute(self.config.sql['mkchannel'].format(channel.id))
+        async for message in client.logs_from(channel):
+            _names = [a.filename for a in message.attachments]
+            # TODO: Download files, dump to FS, and get *actual* SHA-512 hashes
+            _hashes = [a.id for a in message.attachments]
+            self.conn.execute(self.config.sql['insmesg'].format(channel.id), \
+                             (message.id, message.timestamp.isoformat(), message.author, \
+                              message.content, str(_names), str(_hashes)))
+        self.logger.info('Dump done for channel id=%s', channel.id)
 
 if __name__ == '__main__':
     dumpbot = DumpBot()
