@@ -4,7 +4,7 @@ Discord bot to dump logs into an SQLite3 database
 ## Install
  * `pip install -r requirements.txt`
  * Modify `config.json` to add a login token
- * `python -m dumpbot`
+ * `python -m dumpbot.bot`
 
 ## Database Structure
 Every server in the database will be stored in a table named `servers`,

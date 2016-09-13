@@ -24,6 +24,8 @@ class Config():
         _logger.info('Parsing SQL')
         _sql_path = os.path.join(os.path.dirname(__file__), '_sql')
 
+        # TODO: DRY this code up
+
         with open(os.path.join(_sql_path, 'mkserverlist.sql')) as f:
             self.sql['mkserverlist'] = f.read()
 
