@@ -1,5 +1,5 @@
 # dumpbot
-Discord bot to dump logs into an SQLite3 database
+Dump Discord logs into an SQLite3 DB
 
 ## Install
  * `pip install -r requirements.txt`
