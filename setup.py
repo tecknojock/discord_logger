@@ -1,14 +1,27 @@
 #!/usr/bin/env python
+'discord.export setup script.'
 
-from distutils.core import setup
+import os
+from setuptools import setup
 
-setup(name='discord-dumpbot',
-      version='0.0.0',
-      description='Dump Discord logs into an SQLite3 DB',
-      author='Andrea Pascal',
-      author_email='andrea@anodium.net',
-      url='https://github.com/anodium/dumpbot',
-      packages=['dumpbot'],
-      requires='discord.py>=0.11.0,<=0.12.0',
-      license='MIT'
-     )
+def read(fname):
+    'Utility function to read files.'
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
+LONG_DESCRIPTION = read('README.md').splitlines()
+DESCRIPTION = LONG_DESCRIPTION[1]
+REQUIRES = read('requirements.txt').splitlines()
+
+setup(
+    name='discord.export',
+    version='0.0.0',
+    description=DESCRIPTION,
+    long_description=LONG_DESCRIPTION,
+    keywords="discord data dump export message dms script",
+    author='Andrea Pascal',
+    author_email='andrea@anodium.net',
+    url='https://github.com/anodium/discord-data-export',
+    packages=['discord.export', 'discord.tests'],
+    requires=REQUIRES,
+    license='MIT'
+)
