@@ -1,20 +1,10 @@
-# dumpbot
-Dump Discord logs into an SQLite3 DB
+# Discord Data Export
+A script to export a user's Discord messages.
 
-## Install
- * `pip install -r requirements.txt`
- * Modify `config.json` to add a login token
- * `python -m dumpbot.bot`
-
-## Database Structure
-Every server in the database will be stored in a table named `servers`,
-that is using the schema in `sql/mkserverlist.sql`.
-
-Each *individual* server will also have a table named after its server ID,
-using the schema in `sql/mkserver.sql`.
-
-Then, each channel in each server will have a table named after its ID, they
-use the schema in `sql/mkchannel.sql`.
-
-Plus, a folder named `blobs/` outside of the DB that will have every attachement in the form of
-`attachment_hash[0-1]/attachment_hash[2-3]/attachment_hash.attachment_ext`
+Uses the same [format Slack uses](https://api.slack.com/docs/messages), plus a
+few additions for Discord-specific functionality, to allow interop with
+[lots](https://github.com/joefitzgerald/slack-dump)
+[of](https://github.com/hisabimbola/slack-history-export)
+[other](https://github.com/hfaran/slack-export-viewer)
+[tools](https://levels.io/slack-export-to-html/)
+already written for Slack.
