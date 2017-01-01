@@ -4,9 +4,11 @@
 import os
 from setuptools import setup
 
+
 def read(fname):
     'Utility function to read files.'
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
 
 LONG_DESCRIPTION = read('README.md').splitlines()
 DESCRIPTION = LONG_DESCRIPTION[1]
@@ -21,7 +23,7 @@ setup(
     author='Andrea Pascal',
     author_email='andrea@anodium.net',
     url='https://github.com/anodium/discord-data-export',
-    packages=['discordexport', 'test'],
+    packages=['discord.export'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Environment :: Console',
