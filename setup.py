@@ -23,7 +23,7 @@ setup(
     author='Andrea Pascal',
     author_email='andrea@anodium.net',
     url='https://github.com/anodium/discord-data-export',
-    packages=['discord.export'],
+    packages=['discord-export'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Environment :: Console',
@@ -36,7 +36,6 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3 :: Only',
         'Topic :: Communications',
