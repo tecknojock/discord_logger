@@ -1,3 +1,4 @@
+import asyncio
 import argparse
 import discord
 import os
@@ -34,31 +35,33 @@ async def on_ready():
 
 
 async def get_servers():
-    servers = read_json('servers.json')
-    for server in client.servers:
-        servers.append({
-            'name': server.name,
-            'region': str(server.region),
-            'icon': server.icon,
-            'id': server.id,
-            'mfa_level': server.mfa_level,
-            'verification_level': str(server.verification_level),
-            'features': server.features,
-            'splash': server.splash,
-            'icon_url': server.icon_url,
-            'splash_url': server.splash_url,
-            'member_count': server.member_count,
-            'created_at': server.created_at.isoformat()
-        })
+    while True:
+        servers = read_json('servers.json')
+        for server in client.servers:
+            servers.append({
+                'name': server.name,
+                'region': str(server.region),
+                'icon': server.icon,
+                'id': server.id,
+                'mfa_level': server.mfa_level,
+                'verification_level': str(server.verification_level),
+                'features': server.features,
+                'splash': server.splash,
+                'icon_url': server.icon_url,
+                'splash_url': server.splash_url,
+                'member_count': server.member_count,
+                'created_at': server.created_at.isoformat()
+            })
 
-    ids = []
-    deduped_servers = []
-    for server in servers:
-        if server['id'] not in ids:
-            deduped_servers.append(server)
-            ids.append(server['id'])
+        ids = []
+        deduped_servers = []
+        for server in servers:
+            if server['id'] not in ids:
+                deduped_servers.append(server)
+                ids.append(server['id'])
 
-    write_json('servers.json', deduped_servers)
+        write_json('servers.json', deduped_servers)
+        await asyncio.sleep(300)
 
 
 def read_json(path):
