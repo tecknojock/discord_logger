@@ -30,7 +30,7 @@ def parse_args():
 
 @client.event
 async def on_ready():
-    print("logged in")
+    await get_servers()
 
 
 @client.event
@@ -39,7 +39,23 @@ async def on_message(message):
 
 
 async def get_servers():
-    pass
+    servers = read_json('servers.json')
+    for server in client.servers:
+        servers.append({
+            'name': server.name,
+            'region': str(server.region),
+            'icon': server.icon,
+            'id': server.id,
+            'mfa_level': server.mfa_level,
+            'verification_level': str(server.verification_level),
+            'features': server.features,
+            'splash': server.splash,
+            'icon_url': server.icon_url,
+            'splash_url': server.splash_url,
+            'member_count': server.member_count,
+            'created_at': server.created_at.isoformat()
+        })
+    write_json('servers.json', servers)
 
 
 def read_json(path):
@@ -48,13 +64,13 @@ def read_json(path):
                   path), 'rt') as f:
             return json.load(f)
     except FileNotFoundError:
-        return ()
+        return []
 
 
 def write_json(path, obj):
     with open(os.path.join((args.path if args.path is not None else '.'),
               path), 'wt') as f:
-        json.dump(f, indent=4, separators=(', ', ': '))
+        json.dump(obj, f, indent=4, separators=(', ', ': '))
 
 
 if __name__ == "__main__":
