@@ -14,12 +14,12 @@ def main():
     parser.add_argument('path',
                         help='path to the root of the log database')
 
-    parser.add_argument('-u', '-user-token',
+    parser.add_argument('-u', '--user',
                         help="token passed is a USER token, NOT a BOT token",
                         action="store_false")
 
     args = parser.parse_args()
-    client.run()
+    client.run(args.token, bot=(args.user if args.user is not None else True))
 
 
 @client.event
