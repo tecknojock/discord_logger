@@ -15,7 +15,7 @@ def parse_args():
     parser.add_argument('token',
                         help='token used for authenticating with Discord')
 
-    parser.add_argument('path',
+    parser.add_argument('-p', '--path',
                         help='path to the root of the log database')
 
     parser.add_argument('-u', '--user',
