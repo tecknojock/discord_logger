@@ -53,14 +53,8 @@ async def get_servers():
                 'created_at': server.created_at.isoformat()
             })
 
-        ids = []
-        deduped_servers = []
-        for server in servers:
-            if server['id'] not in ids:
-                deduped_servers.append(server)
-                ids.append(server['id'])
-
-        write_json('servers.json', deduped_servers)
+        servers = dedupe_list(servers)
+        write_json('servers.json', servers)
         await asyncio.sleep(300)
 
 
@@ -77,6 +71,16 @@ def write_json(path, obj):
     with open(os.path.join((args.path if args.path is not None else '.'),
               path), 'wt') as f:
         json.dump(obj, f, indent=4, separators=(', ', ': '))
+
+
+def dedupe_list(lst):
+    ids = []
+    deduped_lst = []
+    for i in lst:
+        if i['id'] not in ids:
+            deduped_lst.append(i)
+            ids.append(i['id'])
+    return deduped_lst
 
 
 if __name__ == "__main__":
