@@ -33,11 +33,6 @@ async def on_ready():
     await get_servers()
 
 
-@client.event
-async def on_message(message):
-    pass
-
-
 async def get_servers():
     servers = read_json('servers.json')
     for server in client.servers:
@@ -55,7 +50,15 @@ async def get_servers():
             'member_count': server.member_count,
             'created_at': server.created_at.isoformat()
         })
-    write_json('servers.json', servers)
+
+    ids = []
+    deduped_servers = []
+    for server in servers:
+        if server['id'] not in ids:
+            deduped_servers.append(server)
+            ids.append(server['id'])
+
+    write_json('servers.json', deduped_servers)
 
 
 def read_json(path):
