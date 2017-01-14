@@ -6,7 +6,14 @@ import json
 
 client = discord.Client()
 
+# Yeah yeah, I know I use globals. You're not the first one to tell me. :P
+global args
+args = None
+global servers
+servers = []
 
+
+# Initialization Functions
 def main():
     parse_args()
     client.run(args.token, bot=args.user)
@@ -25,16 +32,20 @@ def parse_args():
                         help="token passed is a USER token, NOT a bot token",
                         action="store_false")
 
-    global args  # Yeah yeah, I used a global. Sue me, I don't care. P:
+    global args
     args = parser.parse_args()
 
 
+# Main Functions
 @client.event
 async def on_ready():
     await get_servers()
+    await get_channels()
 
 
+# TODO: BUG get_servers causes loop deadlock
 async def get_servers():
+    global servers
     while True:
         servers = read_json('servers.json')
         for server in client.servers:
@@ -55,22 +66,53 @@ async def get_servers():
 
         servers = dedupe_list(servers)
         write_json('servers.json', servers)
-        await asyncio.sleep(300)
+        await asyncio.sleep(7)
 
 
+async def get_channels():
+    while True:
+        for server in servers:
+            channels = read_json('{}/channels.json'.format(server['id']))
+            for channel in server.channels:
+                channels.append({
+                    'name': channel.name,
+                    'id': channel.id,
+                    'topic': channel.topic,
+                    'position': channel.position,
+                    'type': str(channel.type),
+                    'bitrate': channel.bitrate,
+                    'user_limit': channel.user_limit,
+                    'is_default': channel.is_default,
+                    'mention': channel.mention,
+                    'created_at': channel.created_at.isoformat()
+                })
+
+            channels = dedupe_list(channels)
+            write_json('{}/channels.json'.format(server['id']), channels)
+
+        await asyncio.sleep(11)
+
+
+# Utility Functions
 def read_json(path):
+    path = os.path.join((args.path if args.path is not None else '.'), path)
+
+    os.makedirs(os.path.split(path)[0], exist_ok=True)
+
     try:
-        with open(os.path.join((args.path if args.path is not None else '.'),
-                  path), 'rt') as f:
+        with open(path, 'rt') as f:
             return json.load(f)
     except FileNotFoundError:
         return []
 
 
 def write_json(path, obj):
-    with open(os.path.join((args.path if args.path is not None else '.'),
-              path), 'wt') as f:
-        json.dump(obj, f, indent=4, separators=(', ', ': '))
+    path = os.path.join((args.path if args.path is not None else '.'), path)
+
+    os.makedirs(os.path.split(path)[0], exist_ok=True)
+
+    with open(path, 'wt') as f:
+        json.dump(obj, f, indent=4, separators=(', ', ': '), sort_keys=True)
 
 
 def dedupe_list(lst):
