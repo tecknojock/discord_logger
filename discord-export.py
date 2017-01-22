@@ -1,8 +1,11 @@
-import asyncio
 import argparse
+from base64 import b32encode
+import cfscrape
 import discord
-import os
+from hashlib import sha1
 import json
+from mimetypes import guess_extension
+import os
 
 client = discord.Client()
 
@@ -11,6 +14,8 @@ global args
 args = None
 global servers
 servers = []
+global scraper
+scraper = cfscrape.create_scraper()
 
 
 # Initialization Functions
@@ -56,8 +61,10 @@ async def get_servers():
             'verification_level': str(server.verification_level),
             'features': server.features,
             'splash': server.splash,
-            'icon_url': server.icon_url,
-            'splash_url': server.splash_url,
+            'icon_url': download_blob(server.icon_url)
+            if server.icon_url is not '' else '',
+            'splash_url': download_blob(server.splash_url)
+            if server.splash_url is not '' else '',
             'member_count': server.member_count,
             'created_at': server.created_at.isoformat()
         })
@@ -117,6 +124,21 @@ def dedupe_list(lst):
             deduped_lst.append(i)
             ids.append(i['id'])
     return deduped_lst
+
+
+def download_blob(url):
+    path = os.path.join((args.path if args.path is not None else '.'), 'blobs')
+
+    os.makedirs(path, exist_ok=True)
+
+    blob = scraper.get(url)
+    hash = b32encode(sha1(blob.content).digest()).decode('utf-8')
+    name = hash + guess_extension(blob.headers['content-type'])
+
+    with open(os.path.join(path, name), 'wb') as f:
+        f.write(blob.content)
+
+    return os.path.join('blobs', name)
 
 
 if __name__ == "__main__":
