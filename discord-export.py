@@ -43,54 +43,48 @@ async def on_ready():
     await get_channels()
 
 
-# TODO: BUG get_servers causes loop deadlock
 async def get_servers():
     global servers
-    while True:
-        servers = read_json('servers.json')
-        for server in client.servers:
-            servers.append({
-                'name': server.name,
-                'region': str(server.region),
-                'icon': server.icon,
-                'id': server.id,
-                'mfa_level': server.mfa_level,
-                'verification_level': str(server.verification_level),
-                'features': server.features,
-                'splash': server.splash,
-                'icon_url': server.icon_url,
-                'splash_url': server.splash_url,
-                'member_count': server.member_count,
-                'created_at': server.created_at.isoformat()
-            })
+    servers = read_json('servers.json')
+    for server in client.servers:
+        servers.append({
+            'name': server.name,
+            'region': str(server.region),
+            'icon': server.icon,
+            'id': server.id,
+            'mfa_level': server.mfa_level,
+            'verification_level': str(server.verification_level),
+            'features': server.features,
+            'splash': server.splash,
+            'icon_url': server.icon_url,
+            'splash_url': server.splash_url,
+            'member_count': server.member_count,
+            'created_at': server.created_at.isoformat()
+        })
 
-        servers = dedupe_list(servers)
-        write_json('servers.json', servers)
-        await asyncio.sleep(7)
+    servers = dedupe_list(servers)
+    write_json('servers.json', servers)
 
 
 async def get_channels():
-    while True:
-        for server in servers:
-            channels = read_json('{}/channels.json'.format(server['id']))
-            for channel in server.channels:
-                channels.append({
-                    'name': channel.name,
-                    'id': channel.id,
-                    'topic': channel.topic,
-                    'position': channel.position,
-                    'type': str(channel.type),
-                    'bitrate': channel.bitrate,
-                    'user_limit': channel.user_limit,
-                    'is_default': channel.is_default,
-                    'mention': channel.mention,
-                    'created_at': channel.created_at.isoformat()
-                })
+    for server in client.servers:
+        channels = read_json('{}/channels.json'.format(server.id))
+        for channel in server.channels:
+            channels.append({
+                'name': channel.name,
+                'id': channel.id,
+                'topic': channel.topic,
+                'position': channel.position,
+                'type': str(channel.type),
+                'bitrate': channel.bitrate,
+                'user_limit': channel.user_limit,
+                'is_default': channel.is_default,
+                'mention': channel.mention,
+                'created_at': channel.created_at.isoformat()
+            })
 
-            channels = dedupe_list(channels)
-            write_json('{}/channels.json'.format(server['id']), channels)
-
-        await asyncio.sleep(11)
+        channels = dedupe_list(channels)
+        write_json('{}/channels.json'.format(server.id), channels)
 
 
 # Utility Functions
