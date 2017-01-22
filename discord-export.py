@@ -1,8 +1,7 @@
 import argparse
-from base64 import b32encode
 import cfscrape
 import discord
-from hashlib import sha1
+from hashlib import md5
 import json
 from mimetypes import guess_extension
 import os
@@ -12,10 +11,14 @@ client = discord.Client()
 # Yeah yeah, I know I use globals. You're not the first one to tell me. :P
 global args
 args = None
-global servers
-servers = []
+global blob_contexts
+blob_contexts = []
+global blobs
+blobs = {}
 global scraper
 scraper = cfscrape.create_scraper()
+global servers
+servers = []
 
 
 # Initialization Functions
@@ -61,9 +64,11 @@ async def get_servers():
             'verification_level': str(server.verification_level),
             'features': server.features,
             'splash': server.splash,
-            'icon_url': download_blob(server.icon_url)
+            'icon_url': download_blob(server.icon_url,
+                                      server.icon)
             if server.icon_url is not '' else '',
-            'splash_url': download_blob(server.splash_url)
+            'splash_url': download_blob(server.splash_url,
+                                        server.splash)
             if server.splash_url is not '' else '',
             'member_count': server.member_count,
             'created_at': server.created_at.isoformat()
@@ -126,19 +131,34 @@ def dedupe_list(lst):
     return deduped_lst
 
 
-def download_blob(url):
-    path = os.path.join((args.path if args.path is not None else '.'), 'blobs')
+def download_blob(url, cksum, ctx=''):
+    path = os.path.join((args.path if args.path is not None else '.'),
+                        ctx, 'blobs')
 
     os.makedirs(path, exist_ok=True)
 
+    global blob_contexts
+    global blobs
+    if ctx not in blob_contexts:
+        blob_contexts.append(ctx)
+        for b in os.listdir(path):
+            b = b.split('.')
+            blobs[b[0]] = (b[1], ctx)
+
+    if cksum in blobs:
+        return os.path.join(ctx, 'blobs', cksum + '.' + blobs[cksum][0])
+
     blob = scraper.get(url)
-    hash = b32encode(sha1(blob.content).digest()).decode('utf-8')
-    name = hash + guess_extension(blob.headers['content-type'])
+    hash = md5(blob.content).hexdigest()
+    ext = guess_extension(blob.headers['content-type'])
+    name = hash + ext
 
     with open(os.path.join(path, name), 'wb') as f:
         f.write(blob.content)
 
-    return os.path.join('blobs', name)
+    blobs[hash] = (ext.split('.')[1], ctx)
+
+    return os.path.join(ctx, 'blobs', name)
 
 
 if __name__ == "__main__":
