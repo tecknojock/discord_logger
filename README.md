@@ -1,10 +1,30 @@
-# Discord Data Export
-A script to export a user's Discord messages.
+# Discord Logger
+Logging for Discord, álá IRC
 
-Uses the same [format Slack uses](https://api.slack.com/docs/messages), plus a
-few additions for Discord-specific functionality, to allow interop with
-[lots](https://github.com/joefitzgerald/slack-dump)
-[of](https://github.com/hisabimbola/slack-history-export)
-[other](https://github.com/hfaran/slack-export-viewer)
-[tools](https://levels.io/slack-export-to-html/)
-already written for Slack.
+## Dependencies
+
+ * Python +3.5
+ * `discord.py` to connect to Discord servers
+
+## Installation
+
+### Recommended Method
+
+ * Run `pip install discord-logger`, or `pipsi install discord-logger` if you have [`pipsi`](https://github.com/mitsuhiko/pipsi) installed (which I strongly recommend you do).
+ * That's it!
+
+
+### Advanced Method
+
+ * Clone the repository with `git clone https://github.com/anodium/discord-logger.git`.
+ * Navigate to the newly cloned repository
+ * Install the dependencies with `pip install -r requirements.txt`.
+ * Install `discord-logger` itself with `python setup.py install`.
+
+## Running
+
+ * Set the `DISCORD_TOKEN` environment variable to your personal login token (Note: this *cannot* be a bot token, or an alt-account's token, it must be **your** user token).
+  * You can log in on the Discord client, pop open the web inspector with Ctrl-Shift-I, and type `localStorage.token` in the console to get your auth token.
+  * **WARNING:** As the console may warn you, do **NOT** give your auth token to *anyone*, as it can be easily used to access the entirety of your account!
+ * Navigate to the root directory of your logs.
+ * Run `python discord-logger.py` and leave it running in the background.
