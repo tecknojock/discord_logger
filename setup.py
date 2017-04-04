@@ -23,7 +23,14 @@ setup(
     author='Andrea Pascal',
     author_email='andrea@anodium.net',
     url='https://github.com/anodium/discord-logger',
-    packages=['discord-logger'],
+    package_dir='src',
+    packages=[
+        'discord.logger.daemon',
+        'discord.logger.test_daemon'
+    ],
+    scripts=[
+        'discord.logger/discord-logger'
+    ],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Environment :: Console',
