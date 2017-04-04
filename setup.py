@@ -12,6 +12,20 @@ def read(fname):
 
 LONG_DESCRIPTION = read('README.md').splitlines()
 DESCRIPTION = LONG_DESCRIPTION[1]
+KEYWORDS = [
+    'discord',
+    'data',
+    'dump',
+    'export',
+    'message',
+    'server',
+    'channel',
+    'dms',
+    'script',
+    'log',
+    'logger',
+    'logging'
+]
 REQUIRES = read('requirements.txt').splitlines()
 
 setup(
@@ -19,7 +33,7 @@ setup(
     version='0.0.0',
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
-    keywords="discord data dump export message server channel dms script log logger logging",
+    keywords=''.join(e + ' ' for e in KEYWORDS).strip(),
     author='Andrea Pascal',
     author_email='andrea@anodium.net',
     url='https://github.com/anodium/discord-logger',
@@ -44,8 +58,8 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3 :: Only',
+        'Programming Language :: Python :: 3.5',
         'Topic :: Communications',
         'Topic :: Communications :: Chat',
         'Topic :: Internet',
