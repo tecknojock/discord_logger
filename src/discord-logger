@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+'discord-logger interactive mode script'
 
 import discord.logger.daemon as daemon
 from os import getenv

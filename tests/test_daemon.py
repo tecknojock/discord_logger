@@ -1,5 +1,5 @@
 import pytest
-import daemon
+import discord.logger.daemon as daemon
 
 
 def test_noenv():

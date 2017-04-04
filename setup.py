@@ -25,8 +25,7 @@ setup(
     url='https://github.com/anodium/discord-logger',
     package_dir='src',
     packages=[
-        'discord.logger.daemon',
-        'discord.logger.test_daemon'
+        'discord.logger'
     ],
     scripts=[
         'discord.logger/discord-logger'
@@ -58,5 +57,5 @@ setup(
         'Topic :: Utilities'
     ],
     requires=REQUIRES,
-    license='MIT'
+    license='License :: OSI Approved :: MIT License'
 )
