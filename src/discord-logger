@@ -1,9 +1,0 @@
-#!/usr/bin/env python
-'discord-logger interactive mode script'
-
-import discord.logger.daemon as daemon
-from os import getenv
-
-
-if __name__ == '__main__':
-    daemon._main(getenv('DISCORD_TOKEN'))
