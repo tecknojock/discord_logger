@@ -2,7 +2,7 @@
 'discord-logger setup script.'
 
 import os
-from setuptools import setup
+from distutils.core import setup
 
 
 def read(fname):
@@ -30,19 +30,21 @@ REQUIRES = read('requirements.txt').splitlines()
 
 setup(
     name='discord-logger',
-    version='0.0.0',
+    version='0.0.1',
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
     keywords=''.join(e + ' ' for e in KEYWORDS).strip(),
     author='Andrea Pascal',
     author_email='andrea@anodium.net',
     url='https://github.com/anodium/discord-logger',
-    package_dir='src',
+    package_dir={
+        'discord.logging': 'src/logging'
+    },
     packages=[
-        'discord.logger'
+        'discord.logging'
     ],
     scripts=[
-        'discord.logger/discord-logger'
+        'src/dsclog'
     ],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
@@ -70,6 +72,5 @@ setup(
         'Topic :: System :: Logging',
         'Topic :: Utilities'
     ],
-    requires=REQUIRES,
-    license='License :: OSI Approved :: MIT License'
+    requires=REQUIRES
 )
