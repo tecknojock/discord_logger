@@ -1,26 +1,30 @@
 #!/usr/bin/env ruby
 
 require 'optparse'
-#require 'discord_logger' #TODO: Figure out Ruby equivalent of virtualenv to test
+require 'discord_logger'
 
 def main
-    options = {}
-    OptionParser.new do |opts|
-        opts.banner = "Usage: discordlogger [options] token"
+  @options = {}
+  OptionParser.new do |opts|
+    opts.banner = "Usage: discordlogger [options] token"
 
-        opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
-            options[:verbose] = v
-        end
+    opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+      @options[:verbose] = v
+    end
 
-        opts.on("-b", "--[no-]bot", "Run as a bot account") do |b|
-            options[:bot] = b
-        end
-    end.parse!
+    opts.on("-b", "--[no-]bot", "Run as a bot account") do |b|
+      @options[:bot] = b
+    end
 
-    #puts options
-    #puts ARGV
+    opts.on("-d", "--[no-]daemon", "Run as a daemon") do |d|
+      @options[:daemon] = d
+    end
+  end.parse!
+
+  #FIXME: private method `main' called for DiscordLogger:Module (NoMethodError)
+  DiscordLogger::main @options, ARGV[0]
 end
 
 if __FILE__ == $0
-    main
+  main
 end
